@@ -1,0 +1,39 @@
+import cv2
+import numpy as np
+img = cv2.imread("img.jpeg")
+
+dim = (200,200)
+img = cv2.resize(img,dim,interpolation = cv2.INTER_AREA)
+
+def vertical_flip(imgg):
+    img2= np.zeros([200, 200, 3], np.uint8)
+    for i in range(200):
+
+        img2[i,:]=imgg[200-i-1,:]
+
+    return img2
+
+def horizontal_flip(imgg):
+    img2= np.zeros([200, 200, 3], np.uint8)
+    for i in range(200):
+
+        img2[:,i]=imgg[:,200-i-1]
+
+    return img2
+
+d = vertical_flip(img)
+
+u = horizontal_flip(d)
+
+r = horizontal_flip(img)
+
+black  = np.ones([700, 700, 3], np.uint8)
+black[200:400, 0:200] = r
+black[0:200, 200:400] = u
+black[200:400, 200:400] = img
+black[400:600, 200:400] = d
+black[200:400, 400:600] = r
+
+cv2.imshow("black",black)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
